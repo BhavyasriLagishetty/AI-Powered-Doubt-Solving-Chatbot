@@ -25,16 +25,6 @@ An intuitive web-based chatbot application that allows users (students) to ask a
 
 ---
 
-## 📁 Project Structure
-
-```
-├── chatbot.html         # Main HTML & JS code
-├── styles.css          # Optional external CSS
-├── README.md           # This description file
-└── assets/             # Any static images or assets (if used)
-```
-
----
 
 ## ⚙️ Setup & Usage
 
