@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI-Powered Doubt Solving Chatbot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #4b6cb7, #182848);
+        color: white;
+        text-align: center;
+      }
+      header {
+        padding: 50px 20px;
+        background: rgba(0, 0, 0, 0.6);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        font-size: 3rem;
+      }
+      p {
+        font-size: 1.2rem;
+      }
+      .features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 50px 20px;
+      }
+      .feature-card {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        width: 250px;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+      }
+      .feature-card:hover {
+        transform: scale(1.05);
+      }
+      i {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+      .cta {
+        margin: 30px;
+      }
+      button {
+        background: #ffcc00;
+        color: #333;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s;
+      }
+      button:hover {
+        background: #ff9900;
+      }
+      a {
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>AI-Powered Doubt Solving Chatbot</h1>
+      <p>Get instant help with your academic doubts, anytime, anywhere.</p>
+    </header>
+
+    <section class="features">
+      <div class="feature-card">
+        <i class="fas fa-robot"></i>
+        <a href="chatbot.html">AI Chatbot</a>
+        <p>Instant answers to your subject-related queries.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-book"></i>
+        <a href="learning_resources.html">Learning Resources</a>
+        <p>Get personalized study material and quizzes.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-users"></i>
+        <a href="community_forum.html">Community Forum</a>
+        <p>Discuss with peers and get expert guidance.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-trophy"></i>
+        <a href="gamification.html">Gamification</a>
+        <p>Earn rewards and track your progress.</p>
+      </div>
+    </section>
+
+    <div class="cta">
+      <button onclick="window.location.href='http://localhost:8501'">
+        Start Solving Doubts
+      </button>
+    </div>
+  </body>
+</html>

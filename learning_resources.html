@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learning Resources</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(to right, #4b6cb7, #182848);
+        color: white;
+        text-align: center;
+      }
+      header {
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      .resources {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 50px 20px;
+      }
+      .resource-card {
+        background: rgba(255, 255, 255, 0.9);
+        color: #333;
+        width: 300px;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        text-align: left;
+      }
+      .resource-card:hover {
+        transform: scale(1.05);
+      }
+      .resource-card a {
+        text-decoration: none;
+        color: #182848;
+        font-weight: bold;
+      }
+      .resource-card a:hover {
+        color: #4b6cb7;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Learning Resources</h1>
+      <p>Explore study materials, quizzes, and video tutorials.</p>
+    </header>
+
+    <section class="resources">
+      <div class="resource-card">
+        <h2>Mathematics</h2>
+        <p>Algebra, Geometry, Calculus, and more.</p>
+        <a href="https://www.khanacademy.org/math" target="_blank"
+          >Explore Now</a
+        >
+      </div>
+      <div class="resource-card">
+        <h2>Science</h2>
+        <p>Physics, Chemistry, Biology resources.</p>
+        <a href="https://www.sciencedirect.com" target="_blank">Explore Now</a>
+      </div>
+      <div class="resource-card">
+        <h2>Programming</h2>
+        <p>Learn Python, Java, and Web Development.</p>
+        <a href="https://www.w3schools.com/" target="_blank">Explore Now</a>
+      </div>
+      <div class="resource-card">
+        <h2>Practice Quizzes</h2>
+        <p>Test your knowledge with interactive quizzes.</p>
+        <a href="https://quizizz.com/" target="_blank">Start Quiz</a>
+      </div>
+    </section>
+  </body>
+</html>

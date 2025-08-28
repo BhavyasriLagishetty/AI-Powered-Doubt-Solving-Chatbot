@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamification</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadProgress();
+      });
+
+      function earnPoints(pointsEarned) {
+        let points = parseInt(localStorage.getItem("points")) || 0;
+        points += pointsEarned;
+        localStorage.setItem("points", points);
+        updatePointsDisplay();
+        checkAchievements(points);
+      }
+
+      function updatePointsDisplay() {
+        document.getElementById("points").textContent =
+          localStorage.getItem("points") || 0;
+      }
+
+      function checkAchievements(points) {
+        let achievements = document.getElementById("achievements");
+        achievements.innerHTML = "";
+
+        if (points >= 50) {
+          achievements.innerHTML +=
+            "<li>Beginner Level Unlocked (50 Points)</li>";
+        }
+        if (points >= 100) {
+          achievements.innerHTML +=
+            "<li>Intermediate Level Unlocked (100 Points)</li>";
+        }
+        if (points >= 200) {
+          achievements.innerHTML +=
+            "<li>Expert Level Unlocked (200 Points)</li>";
+        }
+      }
+
+      function postDiscussion() {
+        let discussionInput = document.getElementById("discussionInput");
+        let discussionText = discussionInput.value.trim();
+        if (discussionText) {
+          let forumContainer = document.getElementById("forum");
+          let newPost = document.createElement("div");
+          newPost.classList.add("post");
+          newPost.innerHTML = `
+                    <p>${discussionText}</p>
+                    <button class="reply-btn" onclick="toggleReplyForm(this)">Reply</button>
+                    <div class="reply-form" style="display: none;">
+                        <input type="text" placeholder="Write a reply...">
+                        <button class="post-reply-btn" onclick="postReply(this)">Post Reply</button>
+                    </div>
+                    <div class="replies"></div>
+                `;
+          forumContainer.appendChild(newPost);
+          discussionInput.value = "";
+
+          earnPoints(20); // Earn 20 points for posting a discussion
+          saveDiscussions();
+        } else {
+          alert("Please enter a discussion topic before posting.");
+        }
+      }
+
+      function postReply(button) {
+        let replyInput = button.previousElementSibling;
+        let replyText = replyInput.value.trim();
+        if (replyText) {
+          let replyContainer = button
+            .closest(".post")
+            .querySelector(".replies");
+          let newReply = document.createElement("div");
+          newReply.classList.add("reply");
+          newReply.textContent = replyText;
+          replyContainer.appendChild(newReply);
+          replyInput.value = "";
+
+          earnPoints(10); // Earn 10 points for posting a reply
+          saveDiscussions();
+        } else {
+          alert("Please enter a reply before posting.");
+        }
+      }
+
+      function toggleReplyForm(button) {
+        let replyForm = button.nextElementSibling;
+        replyForm.style.display =
+          replyForm.style.display === "none" ? "block" : "none";
+      }
+
+      function saveDiscussions() {
+        let forumContent = document.getElementById("forum").innerHTML;
+        localStorage.setItem("forumDiscussions", forumContent);
+      }
+
+      function loadProgress() {
+        updatePointsDisplay();
+        checkAchievements(parseInt(localStorage.getItem("points")) || 0);
+
+        let savedDiscussions = localStorage.getItem("forumDiscussions");
+        if (savedDiscussions) {
+          document.getElementById("forum").innerHTML = savedDiscussions;
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background: linear-gradient(to right, #4b6cb7, #182848);
+        color: white;
+      }
+      .container {
+        width: 60%;
+        margin: auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        color: black;
+      }
+      .points-display {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px 0;
+      }
+      .achievements {
+        margin-top: 20px;
+        list-style-type: none;
+        padding: 0;
+      }
+      .achievements li {
+        background: #ffcc00;
+        color: #333;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .post {
+        background: #f9f9f9;
+        padding: 15px;
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      .reply {
+        background: #e6e6e6;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+      }
+      .reply-form {
+        margin-top: 10px;
+      }
+      .reply-form input {
+        width: 80%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .reply-btn,
+      .post-reply-btn {
+        padding: 8px 12px;
+        border: none;
+        background: #6a11cb;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .reply-btn:hover,
+      .post-reply-btn:hover {
+        background: #4c0e94;
+      }
+      .discussion-input-container {
+        margin-bottom: 15px;
+      }
+      .discussion-input-container input {
+        width: 70%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .discussion-input-container button {
+        padding: 10px 15px;
+        border: none;
+        background: #6a11cb;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .discussion-input-container button:hover {
+        background: #4c0e94;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gamification Module</h1>
+      <p>Earn points by engaging with the platform!</p>
+      <div class="points-display">Points: <span id="points">0</span></div>
+      <h2>Achievements</h2>
+      <ul class="achievements" id="achievements"></ul>
+
+      <h2>Community Forum</h2>
+      <div class="discussion-input-container">
+        <input
+          type="text"
+          id="discussionInput"
+          placeholder="Start a new discussion..."
+        />
+        <button onclick="postDiscussion()">Post</button>
+      </div>
+      <div id="forum"></div>
+    </div>
+  </body>
+</html>
