@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Doubt Solving Chatbot</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1b2a49, #2e4a7d); /* dark blue gradient */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chat-container {
+      width: 500px;
+      height: 650px;
+      background: #f8f9fa; /* light gray (like cards) */
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #1b2a49; /* same dark navy as homepage */
+      color: #ffffff;
+      padding: 15px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .chat-area {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-message {
+      margin: 6px 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+      font-size: 15px;
+    }
+
+    .user {
+      background: #007bff; /* bright blue */
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bot {
+      background: #28a745; /* bright green */
+      color: #ffffff;
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      background: #f1f3f6;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .input-area button {
+      margin-left: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .send-btn {
+      background: #007bff;
+    }
+
+    .send-btn:hover {
+      background: #0056b3;
+    }
+
+    .save-btn {
+      background: #ffc107; /* yellow button like homepage */
+      color: #000;
+    }
+
+    .save-btn:hover {
+      background: #e0a800;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header">AI Doubt Solving Chatbot</div>
+
+    <div id="chatArea" class="chat-area"></div>
+
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type your doubt..." onkeypress="if(event.key==='Enter'){sendMessage()}">
+      <button class="send-btn" onclick="sendMessage()">Send</button>
+      <button class="save-btn" onclick="saveAsPDF()">Save as Pdf</button>
+    </div>
+  </div>
+
+  <script>
+    const GROQ_API_KEY = "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";  
+    const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+    const GROQ_MODEL = "llama3-8b-8192";
+
+    async function getResponse(userInput) {
+      try {
+        const response = await fetch(GROQ_API_URL, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${GROQ_API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [{ role: "user", content: userInput }],
+            temperature: 0.7
+          })
+        });
+        const data = await response.json();
+        return data.choices[0].message.content;
+      } catch (error) {
+        return "❗ Could not connect to Groq API.\nCheck API key and internet connection.";
+      }
+    }
+
+    function displayMessage(message, type) {
+      const chatArea = document.getElementById("chatArea");
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("chat-message", type);
+
+      msgDiv.style.whiteSpace = "pre-wrap"; // keep formatting
+      msgDiv.textContent = message;
+
+      chatArea.appendChild(msgDiv);
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById("userInput");
+      const userInput = input.value.trim();
+      if (!userInput) return;
+
+      displayMessage("You: " + userInput, "user");
+      input.value = "";
+
+      const botResponse = await getResponse(userInput);
+      displayMessage("Bot: " + botResponse, "bot");
+    }
+
+    function saveAsPDF() {
+      const chatArea = document.getElementById("chatArea");
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 10;
+
+      chatArea.querySelectorAll(".chat-message").forEach(msg => {
+        const lines = doc.splitTextToSize(msg.textContent, 180);
+        lines.forEach(line => {
+          doc.text(line, 10, y);
+          y += 8;
+          if (y > 280) {
+            doc.addPage();
+            y = 10;
+          }
+        });
+        y += 5;
+      });
+
+      doc.save("chat.pdf");
+    }
+  </script>
+
+</body>
+</html>
